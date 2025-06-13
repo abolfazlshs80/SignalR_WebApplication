@@ -1,3 +1,5 @@
+using SignalR_WebApplication.Hubs;
+
 namespace SignalR_WebApplication
 {
     public class Program
@@ -25,10 +27,14 @@ namespace SignalR_WebApplication
             app.UseAuthorization();
 
             app.MapStaticAssets();
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
-                .WithStaticAssets();
+            app.UseEndpoints(endpoint =>
+            {
+                endpoint.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}")
+                    .WithStaticAssets();
+                endpoint.MapHub<SiteChatHub>("/ChatHub");
+            });
 
             app.Run();
         }
