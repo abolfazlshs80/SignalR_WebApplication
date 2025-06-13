@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using SignalR_WebApplication.Data.Context;
 using SignalR_WebApplication.Hubs;
+using SignalR_WebApplication.Service.SignalR.Bugeto.Models.Services;
 
 namespace SignalR_WebApplication
 {
@@ -9,8 +12,17 @@ namespace SignalR_WebApplication
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+
+            var mvcBuilder = builder.Services.AddControllersWithViews();
+
+#if DEBUG
+            mvcBuilder.AddRazorRuntimeCompilation();
+#endif
             builder.Services.AddSignalR();
+            string conectionString = builder.Configuration["ConnectionStrings:LocalDb"] ??"Data Source=.;Initial Catalog=SignalRDB;Integrated Security=True;";
+         
+            builder.Services.AddDbContext<AppDbContext>(_ => _.UseSqlServer(conectionString));
+            builder.Services.AddScoped<IChatRoomService, ChatRoomService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
