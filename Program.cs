@@ -33,7 +33,7 @@ namespace SignalR_WebApplication
                         name: "default",
                         pattern: "{controller=Home}/{action=Index}/{id?}")
                     .WithStaticAssets();
-                endpoint.MapHub<SiteChatHub>("/ChatHub");
+                endpoint.MapHub<SiteChatHub>("/chathub");
             });
 
             app.Run();
