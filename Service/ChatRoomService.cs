@@ -33,4 +33,10 @@ public class ChatRoomService : IChatRoomService
         var chatRoom = _context.ChatRooms.SingleOrDefault(p => p.ConnectionId == CoonectionId);
         return await Task.FromResult(chatRoom.Id);
     }
+    public async Task<List<Guid>> GetAllrooms()
+    {
+        var rooms = _context.ChatRooms.Select(p =>
+            p.Id).ToList();
+        return await Task.FromResult(rooms);
+    }
 }
