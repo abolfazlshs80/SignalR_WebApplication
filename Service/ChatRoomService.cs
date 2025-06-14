@@ -1,4 +1,5 @@
-﻿using SignalR_WebApplication.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SignalR_WebApplication.Data.Context;
 using SignalR_WebApplication.Data.Models;
 
 namespace SignalR_WebApplication.Service.SignalR.Bugeto.Models.Services;
@@ -35,8 +36,12 @@ public class ChatRoomService : IChatRoomService
     }
     public async Task<List<Guid>> GetAllrooms()
     {
-        var rooms = _context.ChatRooms.Select(p =>
-            p.Id).ToList();
+        var rooms = _context.ChatRooms
+            .Include(p => p.ChatMessages)
+            .Where(p => p.ChatMessages.Any())
+            .Select(p =>
+                p.Id).ToList();
+        return await Task.FromResult(rooms);
         return await Task.FromResult(rooms);
     }
 }
