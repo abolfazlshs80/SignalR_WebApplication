@@ -8,6 +8,7 @@
     {
         public interface IChatRoomService
         {
+            Task<List<Guid>> GetAllrooms();
             Task<Guid> CreateChatRoom(string ConnectionId);
             Task<Guid> GetChatRoomForConnection(string CoonectionId);
         }
