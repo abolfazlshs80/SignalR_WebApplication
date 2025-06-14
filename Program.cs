@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SignalR_WebApplication.Data.Context;
 using SignalR_WebApplication.Hubs;
 using SignalR_WebApplication.Service.SignalR.Bugeto.Models.Services;
+using SignalR_WebApplication.Tools.ExtensionMethod;
 
 namespace SignalR_WebApplication
 {
@@ -19,10 +21,10 @@ namespace SignalR_WebApplication
             mvcBuilder.AddRazorRuntimeCompilation();
 #endif
             builder.Services.AddSignalR();
-            string conectionString = builder.Configuration["ConnectionStrings:LocalDb"] ??"Data Source=.;Initial Catalog=SignalRDB;Integrated Security=True;";
-         
-            builder.Services.AddDbContext<AppDbContext>(_ => _.UseSqlServer(conectionString));
-            builder.Services.AddScoped<IChatRoomService, ChatRoomService>();
+            builder.AddEFCoreService();
+            builder.Services.AddAllService();
+
+            builder.Services.AddMyAuthentication();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -36,6 +38,7 @@ namespace SignalR_WebApplication
             app.UseHttpsRedirection();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
@@ -46,6 +49,7 @@ namespace SignalR_WebApplication
                         pattern: "{controller=Home}/{action=Index}/{id?}")
                     .WithStaticAssets();
                 endpoint.MapHub<SiteChatHub>("/chathub");
+                endpoint.MapHub<SupportHub>("/supporthub");
             });
 
             app.Run();
