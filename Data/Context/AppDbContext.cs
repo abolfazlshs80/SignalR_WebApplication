@@ -11,5 +11,7 @@ namespace SignalR_WebApplication.Data.Context
         }
 
         public DbSet<ChatRoom> ChatRooms { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
     }
 }
