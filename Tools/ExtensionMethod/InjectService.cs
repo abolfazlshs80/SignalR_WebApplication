@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using SignalR.Bugeto.Models.Services;
 using SignalR_WebApplication.Data.Context;
 using SignalR_WebApplication.Service;
 using SignalR_WebApplication.Service.SignalR.Bugeto.Models.Services;
@@ -13,6 +14,7 @@ namespace SignalR_WebApplication.Tools.ExtensionMethod
             services.AddScoped<IChatRoomService, ChatRoomService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IMessageService, MessageService>();
             return services;
         }
         public static IServiceCollection AddMyAuthentication(this IServiceCollection services)

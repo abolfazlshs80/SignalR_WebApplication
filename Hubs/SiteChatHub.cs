@@ -19,9 +19,9 @@ namespace SignalR_WebApplication.Hubs
 
             await _messageService.SaveChatMessage(roomId, messageDto);
             await Clients.Groups(roomId.ToString())
-                .SendAsync("GetNewMessage", messageDto.Sender, messageDto.Message, messageDto.Time.ToShortDateString());
-          
-          
+                .SendAsync("getNewMessage", messageDto.Sender, messageDto.Message, messageDto.Time.ToShortDateString());
+
+
         }
 
         public override async Task OnConnectedAsync()

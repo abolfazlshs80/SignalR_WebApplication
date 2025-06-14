@@ -6,8 +6,10 @@ var connection = new signalR.HubConnectionBuilder()
 
 connection.start();
 
-
-//connection.invoke('SendNewMessage', "بازدید کننده", "سلام این پیام از سمت کلاینت ارسال شده است");
+connection.onclose((error) => {
+    console.error("Connection closed with error:", error);
+});
+////connection.invoke('SendNewMessage', "بازدید کننده", "سلام این پیام از سمت کلاینت ارسال شده است");
 
 //نمایش چت باکس برای کاربر
 function showChatDialog() {
